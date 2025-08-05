@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI JobHunter - Intelligent Career Discovery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        .ai-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .ai-text-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .neural-bg {
+            background: radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+        }
+        
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(0.33); }
+            80%, 100% { opacity: 0; }
+        }
+        
+        .ai-search-glow {
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3), 0 0 40px rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .ai-search-glow:focus-within {
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.5), 0 0 60px rgba(102, 126, 234, 0.2);
+        }
+        
+        /* Gaming Loading Animation */
+        .gaming-loader {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #333;
+            border-top: 3px solid #00ff88;
+            border-radius: 50%;
+            animation: gaming-spin 1s linear infinite;
+        }
+        
+        @keyframes gaming-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .gaming-progress {
+            background: linear-gradient(90deg, #00ff88, #00ccff);
+            animation: gaming-progress 3s ease-in-out;
+        }
+        
+        @keyframes gaming-progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        /* Business Loading Animation */
+        .business-loader {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .business-dot {
+            width: 12px;
+            height: 12px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            animation: business-bounce 1.4s ease-in-out infinite both;
+        }
+        
+        .business-dot:nth-child(1) { animation-delay: -0.32s; }
+        .business-dot:nth-child(2) { animation-delay: -0.16s; }
+        .business-dot:nth-child(3) { animation-delay: 0s; }
+        
+        @keyframes business-bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+        
+        /* AI Video Loading Animation */
+        .ai-video-loader {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        
+        .ai-video-ring {
+            position: absolute;
+            border: 2px solid transparent;
+            border-top: 2px solid #f093fb;
+            border-radius: 50%;
+            animation: ai-video-spin 2s linear infinite;
+        }
+        
+        .ai-video-ring:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            animation-delay: 0s;
+        }
+        
+        .ai-video-ring:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 10px;
+            left: 10px;
+            animation-delay: -0.5s;
+            border-top-color: #667eea;
+        }
+        
+        .ai-video-ring:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 20px;
+            left: 20px;
+            animation-delay: -1s;
+            border-top-color: #764ba2;
+        }
+        
+        @keyframes ai-video-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Particle Animation */
+        .particle {
+            position: absolute;
+            background: rgba(102, 126, 234, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particle-float 4s linear infinite;
+        }
+        
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid #667eea;
+            white-space: nowrap;
+            animation: typewriter 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #667eea; }
+        }
+        
+        .loading-overlay {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+        
+        .glitch {
+            animation: glitch 2s infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 min-h-screen neural-bg text-white overflow-x-hidden">
+    <!-- Animated Particles -->
+    <div id="particles" class="fixed inset-0 pointer-events-none z-0"></div>
+    
+    <!-- Header -->
+    <header class="relative z-10 flex justify-between items-center p-6">
+        <div class="flex items-center space-x-6">
+            <span class="text-sm text-gray-300 hover:text-white cursor-pointer transition-colors">Neural Network</span>
+            <span class="text-sm text-gray-300 hover:text-white cursor-pointer transition-colors">AI Careers</span>
+            <span class="text-sm text-gray-300 hover:text-white cursor-pointer transition-colors">Future Jobs</span>
+        </div>
+        <div class="flex items-center space-x-4">
+            <span class="text-sm text-gray-300 hover:text-white cursor-pointer transition-colors">Login</span>
+            <div class="w-10 h-10 ai-gradient rounded-full flex items-center justify-center text-white text-sm font-bold cursor-pointer hover:scale-110 transition-transform">
+                AI
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 flex flex-col items-center justify-center min-h-[70vh] px-4">
+        <!-- AI Logo with Animation -->
+        <div class="mb-12 text-center floating">
+            <div class="relative inline-block">
+                <h1 class="text-7xl font-black mb-4" style="font-family: 'Orbitron', monospace;">
+                    <span class="ai-text-gradient">AI</span>
+                    <span class="text-white">JobHunter</span>
+                </h1>
+                <div class="absolute -top-2 -right-2 w-4 h-4 bg-green-400 rounded-full pulse-ring"></div>
+                <div class="absolute -top-2 -right-2 w-4 h-4 bg-green-400 rounded-full"></div>
+            </div>
+            <p class="text-gray-300 text-xl font-light typewriter" style="font-family: 'Inter', sans-serif;">
+                Intelligent Career Discovery Powered by Neural Networks
+            </p>
+        </div>
+
+        <!-- AI Search Interface -->
+        <div class="w-full max-w-3xl mb-10">
+            <div class="relative">
+                <div class="flex items-center bg-gray-800/50 border border-gray-600 rounded-2xl px-6 py-4 ai-search-glow backdrop-blur-sm">
+                    <div class="flex items-center mr-4">
+                        <div class="w-3 h-3 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                        <span class="text-xs text-gray-400 font-mono">AI ACTIVE</span>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="searchInput"
+                        placeholder="Describe your dream career... (e.g., gaming developer, AI researcher, business analyst)"
+                        class="flex-1 outline-none text-white text-lg bg-transparent placeholder-gray-400"
+                        autocomplete="off"
+                    >
+                    <div class="flex items-center ml-4 space-x-2">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                        <div class="w-px h-6 bg-gray-600"></div>
+                        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Action Buttons -->
+        <div class="flex space-x-6 mb-12">
+            <button 
+                id="searchBtn"
+                class="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 px-8 py-3 rounded-xl text-white font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+            >
+                🤖 AI Search
+            </button>
+            <button 
+                id="luckyBtn"
+                class="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 px-8 py-3 rounded-xl text-white font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+            >
+                ✨ Neural Match
+            </button>
+        </div>
+
+        <!-- Skills Selector -->
+        <div class="text-center max-w-6xl">
+            <p class="text-gray-400 mb-6 text-lg">Select your skills and let AI match perfect opportunities:</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-6">
+                <!-- Technical Skills -->
+                <div class="skill-tag bg-gradient-to-br from-blue-600/20 to-blue-800/20 border border-blue-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="JavaScript" data-category="technical">
+                    <div class="text-lg mb-1">💻</div>
+                    <div class="text-blue-400 font-medium text-sm">JavaScript</div>
+                </div>
+                <div class="skill-tag bg-gradient-to-br from-green-600/20 to-green-800/20 border border-green-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="Python" data-category="technical">
+                    <div class="text-lg mb-1">🐍</div>
+                    <div class="text-green-400 font-medium text-sm">Python</div>
+                </div>
+                <div class="skill-tag bg-gradient-to-br from-purple-600/20 to-purple-800/20 border border-purple-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="React" data-category="technical">
+                    <div class="text-lg mb-1">⚛️</div>
+                    <div class="text-purple-400 font-medium text-sm">React</div>
+                </div>
+                <div class="skill-tag bg-gradient-to-br from-red-600/20 to-red-800/20 border border-red-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="Node.js" data-category="technical">
+                    <div class="text-lg mb-1">🟢</div>
+                    <div class="text-red-400 font-medium text-sm">Node.js</div>
+                </div>
+                
+                <!-- AI/ML Skills -->
+                <div class="skill-tag bg-gradient-to-br from-cyan-600/20 to-cyan-800/20 border border-cyan-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="Machine Learning" data-category="ai">
+                    <div class="text-lg mb-1">🤖</div>
+                    <div class="text-cyan-400 font-medium text-sm">Machine Learning</div>
+                </div>
+                <div class="skill-tag bg-gradient-to-br from-indigo-600/20 to-indigo-800/20 border border-indigo-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="Data Science" data-category="ai">
+                    <div class="text-lg mb-1">📊</div>
+                    <div class="text-indigo-400 font-medium text-sm">Data Science</div>
+                </div>
+                <div class="skill-tag bg-gradient-to-br from-pink-600/20 to-pink-800/20 border border-pink-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="TensorFlow" data-category="ai">
+                    <div class="text-lg mb-1">🧠</div>
+                    <div class="text-pink-400 font-medium text-sm">TensorFlow</div>
+                </div>
+                <div class="skill-tag bg-gradient-to-br from-yellow-600/20 to-yellow-800/20 border border-yellow-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="Deep Learning" data-category="ai">
+                    <div class="text-lg mb-1">🔬</div>
+                    <div class="text-yellow-400 font-medium text-sm">Deep Learning</div>
+                </div>
+                
+                <!-- Design Skills -->
+                <div class="skill-tag bg-gradient-to-br from-orange-600/20 to-orange-800/20 border border-orange-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="UI/UX Design" data-category="design">
+                    <div class="text-lg mb-1">🎨</div>
+                    <div class="text-orange-400 font-medium text-sm">UI/UX Design</div>
+                </div>
+                <div class="skill-tag bg-gradient-to-br from-teal-600/20 to-teal-800/20 border border-teal-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="Photoshop" data-category="design">
+                    <div class="text-lg mb-1">🖼️</div>
+                    <div class="text-teal-400 font-medium text-sm">Photoshop</div>
+                </div>
+                <div class="skill-tag bg-gradient-to-br from-violet-600/20 to-violet-800/20 border border-violet-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="Figma" data-category="design">
+                    <div class="text-lg mb-1">🎯</div>
+                    <div class="text-violet-400 font-medium text-sm">Figma</div>
+                </div>
+                <div class="skill-tag bg-gradient-to-br from-rose-600/20 to-rose-800/20 border border-rose-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="Video Editing" data-category="design">
+                    <div class="text-lg mb-1">🎬</div>
+                    <div class="text-rose-400 font-medium text-sm">Video Editing</div>
+                </div>
+                
+                <!-- Business Skills -->
+                <div class="skill-tag bg-gradient-to-br from-emerald-600/20 to-emerald-800/20 border border-emerald-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="Project Management" data-category="business">
+                    <div class="text-lg mb-1">📋</div>
+                    <div class="text-emerald-400 font-medium text-sm">Project Management</div>
+                </div>
+                <div class="skill-tag bg-gradient-to-br from-sky-600/20 to-sky-800/20 border border-sky-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="Digital Marketing" data-category="business">
+                    <div class="text-lg mb-1">📱</div>
+                    <div class="text-sky-400 font-medium text-sm">Digital Marketing</div>
+                </div>
+                <div class="skill-tag bg-gradient-to-br from-lime-600/20 to-lime-800/20 border border-lime-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="Sales" data-category="business">
+                    <div class="text-lg mb-1">💼</div>
+                    <div class="text-lime-400 font-medium text-sm">Sales</div>
+                </div>
+                <div class="skill-tag bg-gradient-to-br from-amber-600/20 to-amber-800/20 border border-amber-500/30 rounded-xl p-3 cursor-pointer hover:scale-105 transition-all" data-skill="Business Analysis" data-category="business">
+                    <div class="text-lg mb-1">📈</div>
+                    <div class="text-amber-400 font-medium text-sm">Business Analysis</div>
+                </div>
+            </div>
+            
+            <!-- Selected Skills Display -->
+            <div id="selectedSkills" class="mb-6 min-h-[40px]">
+                <div id="skillsDisplay" class="flex flex-wrap justify-center gap-2"></div>
+            </div>
+            
+            <!-- Match Jobs Button -->
+            <button 
+                id="matchJobsBtn"
+                class="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 px-8 py-3 rounded-xl text-white font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled
+            >
+                🎯 Match Jobs with My Skills
+            </button>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 loading-overlay hidden items-center justify-center z-50">
+        <div class="text-center">
+            <div id="loadingAnimation" class="mb-8 flex justify-center">
+                <!-- Dynamic loading animation will be inserted here -->
+            </div>
+            <div class="mb-6">
+                <h3 id="loadingTitle" class="text-2xl font-bold text-white mb-2"></h3>
+                <p id="loadingSubtitle" class="text-gray-300"></p>
+            </div>
+            <div class="w-80 bg-gray-700 rounded-full h-2 mb-4">
+                <div id="loadingProgress" class="h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <div id="loadingText" class="text-sm text-gray-400 font-mono"></div>
+        </div>
+    </div>
+
+    <!-- Lead Collection Modal -->
+    <div id="leadModal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-40">
+        <div class="bg-gray-800 border border-gray-600 rounded-2xl shadow-2xl max-w-lg w-full mx-4 fade-in">
+            <div class="p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 bg-green-400 rounded-full mr-3 animate-pulse"></div>
+                        <h2 class="text-2xl font-bold text-white">AI Match Found! 🎯</h2>
+                    </div>
+                    <button id="closeModal" class="text-gray-400 hover:text-white text-2xl transition-colors">&times;</button>
+                </div>
+                
+                <div class="bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-500/30 rounded-xl p-4 mb-6">
+                    <p class="text-gray-200">Our AI discovered <span id="jobCount" class="font-bold text-green-400">342</span> perfect matches for <span id="searchTerm" class="font-bold text-purple-400">gaming developer</span> positions!</p>
+                </div>
+                
+                <form id="leadForm" class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Full Name *</label>
+                        <input type="text" id="fullName" required class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Email Address *</label>
+                        <input type="email" id="email" required class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
+                        <input type="tel" id="phone" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Experience Level</label>
+                        <select id="experience" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
+                            <option value="">Select your level</option>
+                            <option value="0-1">🌱 Beginner (0-1 years)</option>
+                            <option value="2-5">🚀 Intermediate (2-5 years)</option>
+                            <option value="6-10">⭐ Advanced (6-10 years)</option>
+                            <option value="10+">👑 Expert (10+ years)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <input type="checkbox" id="newsletter" class="mt-1 mr-3 w-4 h-4 text-purple-600 bg-gray-700 border-gray-600 rounded focus:ring-purple-500">
+                        <label for="newsletter" class="text-sm text-gray-300">Get AI-powered job alerts and career insights</label>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105">
+                        🚀 Access AI Job Matches
+                    </button>
+                </form>
+                
+                <p class="text-xs text-gray-500 mt-4 text-center">
+                    🔒 Secured by AI encryption. Unsubscribe anytime.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div id="successMessage" class="fixed top-6 right-6 bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-4 rounded-xl shadow-lg hidden fade-in z-50">
+        <div class="flex items-center">
+            <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <div>
+                <div class="font-semibold">AI Match Confirmed! 🎉</div>
+                <div class="text-sm opacity-90">Your personalized job feed is being prepared...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="relative z-10 mt-20 bg-gray-800/30 backdrop-blur-sm border-t border-gray-700 py-6">
+        <div class="flex justify-center space-x-8 text-sm text-gray-400">
+            <span class="hover:text-white cursor-pointer transition-colors">🔒 Privacy</span>
+            <span class="hover:text-white cursor-pointer transition-colors">📋 Terms</span>
+            <span class="hover:text-white cursor-pointer transition-colors">🤖 AI Ethics</span>
+            <span class="hover:text-white cursor-pointer transition-colors">💬 Support</span>
+        </div>
+        <div class="text-center mt-4 text-xs text-gray-500">
+            Powered by Advanced Neural Networks • © 2024 AI JobHunter
+        </div>
+    </footer>
+
+    <script>
+        // Lead collection data storage
+        let collectedLeads = [];
+        
+        // DOM elements
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const luckyBtn = document.getElementById('luckyBtn');
+        const leadModal = document.getElementById('leadModal');
+        const closeModal = document.getElementById('closeModal');
+        const leadForm = document.getElementById('leadForm');
+        const successMessage = document.getElementById('successMessage');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const matchJobsBtn = document.getElementById('matchJobsBtn');
+        const skillsDisplay = document.getElementById('skillsDisplay');
+        
+        // Skills management
+        let selectedSkills = [];
+        
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.width = Math.random() * 4 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDuration = Math.random() * 3 + 2 + 's';
+                particlesContainer.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 5000);
+            }, 300);
+        }
+        
+        // Get loading animation based on search term
+        function getLoadingAnimation(searchTerm) {
+            const term = searchTerm.toLowerCase();
+            
+            if (term.includes('gaming') || term.includes('game') || term.includes('developer')) {
+                return {
+                    animation: '<div class="gaming-loader"></div>',
+                    title: '🎮 Scanning Gaming Universe',
+                    subtitle: 'Analyzing game studios and developer positions...',
+                    progressClass: 'gaming-progress',
+                    steps: [
+                        'Connecting to gaming networks...',
+                        'Scanning indie studios...',
+                        'Analyzing AAA companies...',
+                        'Processing skill requirements...',
+                        'Matching your profile...'
+                    ]
+                };
+            } else if (term.includes('ai') || term.includes('machine learning') || term.includes('data science')) {
+                return {
+                    animation: '<div class="ai-video-loader"><div class="ai-video-ring"></div><div class="ai-video-ring"></div><div class="ai-video-ring"></div></div>',
+                    title: '🤖 Neural Network Processing',
+                    subtitle: 'Deep learning algorithms analyzing opportunities...',
+                    progressClass: 'bg-gradient-to-r from-purple-500 to-blue-500',
+                    steps: [
+                        'Initializing neural networks...',
+                        'Processing AI job market...',
+                        'Analyzing skill matrices...',
+                        'Computing compatibility scores...',
+                        'Generating recommendations...'
+                    ]
+                };
+            } else if (term.includes('video') || term.includes('content') || term.includes('creator')) {
+                return {
+                    animation: '<div class="ai-video-loader"><div class="ai-video-ring"></div><div class="ai-video-ring"></div><div class="ai-video-ring"></div></div>',
+                    title: '🎬 Content Universe Scan',
+                    subtitle: 'Analyzing creative opportunities across platforms...',
+                    progressClass: 'bg-gradient-to-r from-pink-500 to-purple-500',
+                    steps: [
+                        'Scanning content platforms...',
+                        'Analyzing creator economy...',
+                        'Processing brand partnerships...',
+                        'Evaluating monetization paths...',
+                        'Curating opportunities...'
+                    ]
+                };
+            } else {
+                return {
+                    animation: '<div class="business-loader"><div class="business-dot"></div><div class="business-dot"></div><div class="business-dot"></div></div>',
+                    title: '📊 Business Intelligence Active',
+                    subtitle: 'Analyzing corporate landscape and opportunities...',
+                    progressClass: 'bg-gradient-to-r from-blue-500 to-green-500',
+                    steps: [
+                        'Connecting to business networks...',
+                        'Scanning corporate databases...',
+                        'Analyzing market trends...',
+                        'Processing requirements...',
+                        'Optimizing matches...'
+                    ]
+                };
+            }
+        }
+        
+        // Show loading animation
+        function showLoading(searchTerm) {
+            const config = getLoadingAnimation(searchTerm);
+            
+            document.getElementById('loadingAnimation').innerHTML = config.animation;
+            document.getElementById('loadingTitle').textContent = config.title;
+            document.getElementById('loadingSubtitle').textContent = config.subtitle;
+            
+            const progressBar = document.getElementById('loadingProgress');
+            progressBar.className = `h-2 rounded-full transition-all duration-300 ${config.progressClass}`;
+            
+            loadingOverlay.classList.remove('hidden');
+            loadingOverlay.classList.add('flex');
+            
+            let progress = 0;
+            let stepIndex = 0;
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 20 + 5;
+                if (progress > 100) progress = 100;
+                
+                progressBar.style.width = progress + '%';
+                
+                if (stepIndex < config.steps.length) {
+                    document.getElementById('loadingText').textContent = config.steps[stepIndex];
+                    stepIndex++;
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingOverlay.classList.add('hidden');
+                        loadingOverlay.classList.remove('flex');
+                        showLeadModal(searchTerm);
+                    }, 500);
+                }
+            }, 600);
+        }
+        
+        // Handle search
+        function performSearch() {
+            const searchTerm = searchInput.value.trim();
+            if (searchTerm) {
+                showLoading(searchTerm);
+            } else {
+                searchInput.focus();
+                searchInput.style.borderColor = '#ef4444';
+                setTimeout(() => {
+                    searchInput.style.borderColor = '';
+                }, 2000);
+            }
+        }
+        
+        // Show lead collection modal
+        function showLeadModal(term) {
+            const jobCount = Math.floor(Math.random() * 500) + 100;
+            document.getElementById('searchTerm').textContent = term;
+            document.getElementById('jobCount').textContent = jobCount;
+            leadModal.classList.remove('hidden');
+            leadModal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close modal
+        function closeLeadModal() {
+            leadModal.classList.add('hidden');
+            leadModal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+            leadForm.reset();
+        }
+        
+        // Skills selection functionality
+        function toggleSkill(skillElement) {
+            const skill = skillElement.dataset.skill;
+            const category = skillElement.dataset.category;
+            
+            if (selectedSkills.find(s => s.name === skill)) {
+                // Remove skill
+                selectedSkills = selectedSkills.filter(s => s.name !== skill);
+                skillElement.classList.remove('selected');
+                skillElement.style.transform = 'scale(1)';
+                skillElement.style.boxShadow = '';
+            } else {
+                // Add skill
+                selectedSkills.push({ name: skill, category: category });
+                skillElement.classList.add('selected');
+                skillElement.style.transform = 'scale(1.05)';
+                skillElement.style.boxShadow = '0 0 20px rgba(102, 126, 234, 0.4)';
+            }
+            
+            updateSkillsDisplay();
+            updateMatchButton();
+        }
+        
+        function updateSkillsDisplay() {
+            skillsDisplay.innerHTML = '';
+            
+            if (selectedSkills.length === 0) {
+                skillsDisplay.innerHTML = '<p class="text-gray-500 text-sm">Select skills to see personalized job matches</p>';
+                return;
+            }
+            
+            selectedSkills.forEach(skill => {
+                const skillBadge = document.createElement('div');
+                skillBadge.className = 'bg-gradient-to-r from-purple-600/30 to-blue-600/30 border border-purple-500/50 rounded-full px-4 py-2 text-sm text-white flex items-center gap-2';
+                skillBadge.innerHTML = `
+                    <span>${skill.name}</span>
+                    <button onclick="removeSkill('${skill.name}')" class="text-gray-300 hover:text-white ml-1">×</button>
+                `;
+                skillsDisplay.appendChild(skillBadge);
+            });
+        }
+        
+        function removeSkill(skillName) {
+            selectedSkills = selectedSkills.filter(s => s.name !== skillName);
+            
+            // Update visual state of skill tag
+            const skillElement = document.querySelector(`[data-skill="${skillName}"]`);
+            if (skillElement) {
+                skillElement.classList.remove('selected');
+                skillElement.style.transform = 'scale(1)';
+                skillElement.style.boxShadow = '';
+            }
+            
+            updateSkillsDisplay();
+            updateMatchButton();
+        }
+        
+        function updateMatchButton() {
+            if (selectedSkills.length > 0) {
+                matchJobsBtn.disabled = false;
+                matchJobsBtn.textContent = `🎯 Match Jobs with ${selectedSkills.length} Skills`;
+            } else {
+                matchJobsBtn.disabled = true;
+                matchJobsBtn.textContent = '🎯 Match Jobs with My Skills';
+            }
+        }
+        
+        function matchJobsWithSkills() {
+            if (selectedSkills.length === 0) return;
+            
+            const skillsText = selectedSkills.map(s => s.name).join(', ');
+            const searchTerm = `${skillsText} jobs`;
+            showLoading(searchTerm);
+        }
+        
+        // Fill search from categories (keeping for backward compatibility)
+        function fillSearch(term) {
+            searchInput.value = term;
+            performSearch();
+        }
+        
+        // Handle form submission
+        leadForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const leadData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                experience: document.getElementById('experience').value,
+                searchTerm: document.getElementById('searchTerm').textContent,
+                newsletter: document.getElementById('newsletter').checked,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Store lead data
+            collectedLeads.push(leadData);
+            console.log('🤖 New AI-powered lead collected:', leadData);
+            console.log('📊 Total leads in neural network:', collectedLeads.length);
+            
+            // Close modal and show success
+            closeLeadModal();
+            successMessage.classList.remove('hidden');
+            
+            // Hide success message after 6 seconds
+            setTimeout(() => {
+                successMessage.classList.add('hidden');
+            }, 6000);
+        });
+        
+        // Event listeners
+        searchBtn.addEventListener('click', performSearch);
+        luckyBtn.addEventListener('click', performSearch);
+        closeModal.addEventListener('click', closeLeadModal);
+        matchJobsBtn.addEventListener('click', matchJobsWithSkills);
+        
+        // Add click listeners to skill tags
+        document.querySelectorAll('.skill-tag').forEach(skillTag => {
+            skillTag.addEventListener('click', () => toggleSkill(skillTag));
+        });
+        
+        // Enter key search
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        // Close modal on backdrop click
+        leadModal.addEventListener('click', function(e) {
+            if (e.target === leadModal) {
+                closeLeadModal();
+            }
+        });
+        
+        // Initialize particles and focus
+        window.addEventListener('load', function() {
+            createParticles();
+            searchInput.focus();
+            updateSkillsDisplay(); // Initialize skills display
+        });
+        
+        // Demo function to view collected leads
+        function viewCollectedLeads() {
+            console.table(collectedLeads);
+            return collectedLeads;
+        }
+        
+        // Make functions available globally
+        window.viewCollectedLeads = viewCollectedLeads;
+        window.removeSkill = removeSkill;
+        
+        // Add some glitch effect to the title occasionally
+        setInterval(() => {
+            const title = document.querySelector('h1');
+            title.classList.add('glitch');
+            setTimeout(() => {
+                title.classList.remove('glitch');
+            }, 200);
+        }, 10000);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96a33f0e04650698',t:'MTc1NDM2NDk0NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
